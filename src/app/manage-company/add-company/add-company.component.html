@@ -1,0 +1,32 @@
+<app-header-bar></app-header-bar>
+<div class="ui grid">
+  <div class="four wide column">
+    <app-manage-user-header></app-manage-user-header>
+  </div>
+  <div class="twelve wide column">
+    <div class="twelve wide stretched column">
+      <div class="ui segment">
+        <h1>เพิ่มข้อมูลผู้ประกอบการ</h1>
+        <form (ngSubmit)="addCompany()">
+          <h4 for="company_id">รหัสผู้ประกอบการ</h4>
+          <div class="ui large label">รหัสผู้ประกอบการ: {{companyCount}}</div>
+          <h4 for="company_name">ชื่อสถานประกอบการ</h4>
+          <div class="ui fluid icon input">
+            <input type="text" name="company_name" [(ngModel)]="company_name">
+          </div>
+          <h4 for="company_address">ที่อยู่</h4>
+          <div class="ui fluid icon input">
+            <input type="text" name="company_address" [(ngModel)]="company_address">
+          </div>
+          <h4 for="tel">เบอร์โทรศัพท์</h4>
+          <div class="ui fluid icon input">
+            <input type="text" name="tel" [(ngModel)]="tel">
+          </div>
+          <br>
+          <button type="submit" class="ui green button">เพิ่ม</button>
+          <button type="button" class="ui red button" [routerLink]="'/manage-company'">ยกเลิก</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

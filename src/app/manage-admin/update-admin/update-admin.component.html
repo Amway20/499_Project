@@ -1,0 +1,25 @@
+<app-header-bar></app-header-bar>
+<div class="ui grid">
+  <div class="four wide column">
+    <app-manage-user-header></app-manage-user-header>
+  </div>
+  <div class="twelve wide column">
+    <div class="twelve wide stretched column">
+      <div class="ui segment">
+        <h1>แก้ไขผู้ดูแลระบบ</h1>
+        <form ng #addAdminForm="ngForm">
+          <label for="staff_username">ชื่อผู้ใช้</label>
+            <input type="text" name="staff_username" [(ngModel)]="data.staff_username"> <br>
+          <label for="staff_password">รหัสผ่าน</label>
+            <input type="text" name="staff_password" [(ngModel)]="data.staff_password"> <br>
+          <label for="staff_firstname">ชื่อ</label>
+            <input type="text" name="staff_firstname" [(ngModel)]="data.staff_firstname"> <br>
+          <label for="staff_lastname">นามสกุล</label>
+            <input type="text" name="staff_lastname" [(ngModel)]="data.staff_lastname"> <br>
+          <button type="submit">เพิ่ม</button>
+          <button type="button" [routerLink]="'/manage-admin'">ยกเลิก</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

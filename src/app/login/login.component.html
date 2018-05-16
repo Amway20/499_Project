@@ -1,0 +1,45 @@
+<div class="wrapper">
+	<div class="container">
+		<h1>Welcome</h1>
+		<form class="form" #loginForm="ngForm">
+			<br>
+			<div class="ui two column middle aligned very relaxed stackable grid">
+				<div class="column Mymargin1">
+					<div class="field">
+						<h3>กรุณากรอกรหัสนักศึกษา</h3>
+						<br>
+						<input type="text" name="username" placeholder="Student ID" [(ngModel)]="studentId">
+						<section class="example-section">
+							<mat-checkbox class="example-margin" [(ngModel)]="status" [ngModelOptions]="{standalone: true}">เข้าสู่ระบบในฐานะผู้ประกอบการ</mat-checkbox>
+						</section>
+						<button type="button" (click)="userLogin()">เข้าสู่ระบบ</button>
+					</div>
+				</div>
+				<div class="column Mymargin1">
+					<div class="field">
+						<input type="text" name="username" placeholder="Username" [(ngModel)]="username">
+						<input type="password" name="password" placeholder="Password" [(ngModel)]="password">
+						<br>
+						<button type="button" (click)="adminLogin()">เข้าสู่ระบบ</button>
+					</div>
+				</div>
+			</div>
+			<div class="ui vertical divider">
+				Or
+			</div>
+		</form>
+	</div>
+
+	<ul class="bg-bubbles">
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+		<li></li>
+	</ul>
+</div>

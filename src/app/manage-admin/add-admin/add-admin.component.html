@@ -1,0 +1,34 @@
+<app-header-bar></app-header-bar>
+<div class="ui grid">
+  <div class="four wide column">
+    <app-manage-user-header></app-manage-user-header>
+  </div>
+  <div class="twelve wide column">
+    <div class="twelve wide stretched column">
+      <div class="ui segment">
+        <h1>เพิ่มผู้ดูแลระบบ</h1>
+        <form (ngSubmit)="addAdmin()" class="ui form">
+          <h4 for="staff_username">ชื่อผู้ใช้</h4>
+          <div class="ui fluid icon input">
+            <input type="text" name="staff_username" [(ngModel)]="staff_username">
+          </div>
+          <h4 for="staff_password">รหัสผ่าน</h4>
+          <div class="ui fluid icon input">
+            <input type="text" name="staff_password" [(ngModel)]="staff_password">
+          </div>
+          <h4 for="staff_firstname">ชื่อ</h4>
+          <div class="ui fluid icon input">
+            <input type="text" name="staff_firstname" [(ngModel)]="staff_firstname">
+          </div>
+          <h4 for="staff_lastname">นามสกุล</h4>
+          <div class="ui fluid icon input">
+            <input type="text" name="staff_lastname" [(ngModel)]="staff_lastname">
+          </div>
+          <br>
+          <button type="submit" class="ui green button">เพิ่ม</button>
+          <button type="button" class="ui red button" [routerLink]="'/manage-admin'">ยกเลิก</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

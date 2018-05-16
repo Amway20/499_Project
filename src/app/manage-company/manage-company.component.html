@@ -1,0 +1,107 @@
+<app-header-bar></app-header-bar>
+<div class="ui grid">
+  <div class="four wide column">
+    <app-manage-user-header></app-manage-user-header>
+  </div>
+  <div class="twelve wide column">
+    <div class="twelve wide stretched column">
+      <div class="ui segment">
+        <div class="ui search">
+          <div class="ui icon input">
+            <input class="prompt" type="text" [(ngModel)]="searchData" placeholder="ค้นหาผู้ประกอบการ..." (keyup.enter)="search()">
+          </div>
+          <button class="circular primary basic ui icon button" (click)="search()">
+            <i class="search icon"></i>
+            ค้นหา
+          </button>
+          <button class="circular grey basic ui icon button" (click)="searchAll()">
+            ดูทั้งหมด
+          </button>
+        </div>
+        <table class="ui fixed single line celled table">
+          <thead>
+            <tr>
+              <th>รหัสผู้ประกอบการ</th>
+              <th>ชื่อสถานประกอบการ</th>
+              <th>ที่อยู่</th>
+              <th>เบอร์โทรศัพท์</th>
+              <th>ตัวเลือก</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of companyTemp">
+              <!-- <td>{{data.key}}</td> -->
+              <td>{{data.key}}</td>
+              <td>{{data.company_name}}</td>
+              <td>{{data.company_address}}</td>
+              <td>{{data.tel}}</td>
+              <td>
+                <button type="button" (click)="setData(data)" data-toggle="modal" data-target="#editDataModal">แก้ไข</button>/
+                <button type="button" (click)="setDelCompany(data)" data-toggle="modal" data-target="#deleteCompany">ลบ</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <button class="positive ui button" [routerLink]="'/add-company'">เพิ่ม</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- edit -->
+<div class="modal fade" id="editDataModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">แก้ไขข้อมูลผู้ประกอบการ</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form (ngSubmit)="setData(setForm)" #setForm="ngForm" class="ui form">
+          <div class="field">
+            <div class="ui large label">รหัสผู้ประกอบการ: {{c_id}}</div>
+          </div>
+          <div class="field">
+            <label for="name">ชื่อสถานประกอบการ</label>
+            <input type="text" name="company_name" [(ngModel)]="c_name">
+          </div>
+          <div class="field">
+            <label for="name">ที่อยู่</label>
+            <input type="text" name="company_address" [(ngModel)]="c_address">
+          </div>
+          <div class="field">
+            <label for="name">เบอร์โทรศัพท์</label>
+            <input type="text" name="tel" [(ngModel)]="c_tel">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
+        <button type="button" class="btn btn-primary" (click)="editData()" data-dismiss="modal">บันทึก</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- delete -->
+<div class="modal fade" id="deleteCompany" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="exampleModalLabel">ลบผู้ประกอบการ</h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <b>ต้องการลบ&nbsp;:&nbsp;</b>{{c_name}}&nbsp;?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="delCompany()">ลบ</button>
+      </div>
+    </div>
+  </div>
+</div>

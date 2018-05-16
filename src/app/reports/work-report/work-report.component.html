@@ -1,0 +1,58 @@
+<app-header-bar></app-header-bar>
+<div class="container">
+    <div id="content">
+        <br>
+        <div class="ui segment">
+            <br>
+            <h1 class="ui center aligned header">รายงานสำหรับแบบสอบถามภาวะการมีงานทำ การศึกษาต่อ หรือประกอบอาชีพอิสระ ของบัณฑิตภาควิชาวิทยาการคอมพิวเตอร์</h1>
+            <h1 class="ui center aligned header" *ngIf="showYear">{{yearTypeName}}&nbsp;&nbsp;{{yearValue}}</h1>
+            <h1 class="ui center aligned header" *ngIf="showAll">สรุปรวมทั้งหมด</h1>
+            <br>
+            <h2>สรุปสถิติการมีงานทำ การศึกษาต่อ หรือประกอบอาชีพอิสระ</h2>
+            <div class="ui fitted divider"></div>
+            <br>
+            <br>
+            <p-chart type="pie" [data]="data"></p-chart>
+            <br>
+            <br>
+            <ul class="ui list">
+                <li>ได้งานแล้ว&nbsp;(ทำงานตรงสาย)&nbsp;:&nbsp;{{a}}&nbsp;คน&nbsp;&nbsp;&nbsp;คิดเป็น&nbsp;&nbsp;{{(a/allCount)
+                    | percent}}</li>
+                <li>ได้งานแล้ว&nbsp;(ทำงานไม่ตรงสาย)&nbsp;:&nbsp;{{b}}&nbsp;คน&nbsp;&nbsp;&nbsp;คิดเป็น&nbsp;&nbsp;{{(b/allCount)
+                    | percent}}</li>
+                <li>กำลังศึกษาต่อ&nbsp;:&nbsp;{{c}}&nbsp;คน&nbsp;&nbsp;&nbsp;คิดเป็น&nbsp;&nbsp;{{(c/allCount) | percent}}</li>
+                <li>ประกอบอาชีพอิสระ&nbsp;(เช่น&nbsp;ทำธุรกิจส่วนตัว)&nbsp;:&nbsp;{{d}}&nbsp;คน&nbsp;&nbsp;&nbsp;คิดเป็น&nbsp;&nbsp;{{(d/allCount)
+                    | percent}}</li>
+                <li>กำลังหางานทำ&nbsp;:&nbsp;{{e}}&nbsp;คน&nbsp;&nbsp;&nbsp;คิดเป็น&nbsp;&nbsp;{{(e/allCount) | percent}}</li>
+                <li>กำลังเตรียมตัวศึกษาต่อ&nbsp;:&nbsp;{{f}}&nbsp;คน&nbsp;&nbsp;&nbsp;คิดเป็น&nbsp;&nbsp;{{(f/allCount) | percent}}</li>
+            </ul>
+            <br>
+            <br>
+            <h2>สรุปสถานที่ทำงาน</h2>
+            <div class="ui fitted divider"></div>
+            <ul class="ui list">
+                <li *ngFor="let data of workplaceTemp;">{{data.answer}}</li>
+            </ul>
+            <br>
+            <br>
+            <h2>สรุปชื่อสาขา และมหาวิทยาลัยที่ศึกษาต่อ </h2>
+            <div class="ui fitted divider"></div>
+            <ul class="ui list">
+                <li *ngFor="let data of uniTemp;">{{data.answer}}</li>
+            </ul>
+            <br>
+            <br>
+            <h2>สรุปชื่อธุรกิจ หรือประเภทธุรกิจ </h2>
+            <div class="ui fitted divider"></div>
+            <ul class="ui list">
+                <li *ngFor="let data of jobTemp;">{{data.answer}}</li>
+            </ul>
+            <br>
+            <br>
+
+            <button class="ui button" (click)="GeneratePDF()">ดาวน์โหลดเป็น PDF</button>
+            <button class="ui button" (click)="back()">กลับ</button>
+        </div>
+
+    </div>
+</div>

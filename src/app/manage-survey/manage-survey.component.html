@@ -1,0 +1,87 @@
+<app-header-bar></app-header-bar>
+<div class="container">
+  <div class="ui segment">
+    <div class="manage-body">
+      <br>
+      <button class="positive ui button" [routerLink]="'/add-survey'">สร้างแบบสอบถาม</button>
+    </div>
+    <br>
+    <div class="ui grid manage-body">
+      <div class="three column row">
+        <div class="column" *ngFor="let data of surveyList | async">
+          <div class="ui segment">
+            <h3>{{data.survey_name}}</h3>
+            <b>คำอธิบาย&nbsp;:&nbsp;</b>{{data.description}}
+            <br><br>
+            <div class="ui small basic icon buttons float-right">
+              <button class="ui button"><i class="edit outline icon" (click)="gotoEditSurvey(data)"></i></button>
+              <button class="ui button" data-toggle="modal" data-target="#deleteSurvey" (click)="setData(data)"><i class="trash alternate outline icon"></i></button>
+              <button class="ui button" data-toggle="modal" data-target="#checkStudent" *ngIf="data.target == 'บัณฑิต'" (click)="setCheckStudentData(data)"><i class="user outline icon"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- delete -->
+<div class="modal fade" id="deleteSurvey" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title" id="exampleModalLabel">ลบแบบสอบถาม</h3>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <b>ต้องการลบ&nbsp;:&nbsp;</b>{{s_name}}&nbsp;?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="deleteData()">ลบ</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- check student -->
+<div class="modal fade" id="checkStudent" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="exampleModalLabel">ตรวจสอบสถานะการทำแบบสอบถามของบัณฑิต</h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <b>เลือกปีการศึกษา</b><br>
+        <select class="ui selection dropdown" [(ngModel)]="yearSelected" (ngModelChange)="checkStudentData($event)">
+          <option *ngFor="let data of studentYear" [ngValue]="data">{{data}}</option>
+        </select>
+        <table class="ui fixed single line celled table">
+          <thead>
+            <tr><th>รหัสนักศึกษา</th>
+            <th>ชื่อ</th>
+            <th>นามสกุล</th>
+            <th>สถานะ</th>
+          </tr></thead>
+          <tbody>
+            <tr *ngFor="let data of checkStudentTemp">
+              <td>{{data.key}}</td>
+              <td>{{data.student_firstname}}</td>
+              <td>{{data.student_lastname}}</td>
+              <td *ngIf="data.status == 'yes'"><i class="green check icon"></i></td>
+              <td *ngIf="data.status == 'no'"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clearData()">ปิด</button>
+      </div>
+    </div>
+  </div>
+</div>

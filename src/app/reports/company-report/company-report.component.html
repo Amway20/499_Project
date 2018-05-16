@@ -1,0 +1,29 @@
+<app-header-bar></app-header-bar>
+<div class="container">
+  <div id="content">
+    <br>
+    <div class="ui segment">
+      <br>
+      <h1 class="ui center aligned header">รายงานสำหรับแบบสำรวจความพึงพอใจของนายจ้างหรือผู้บังคับบัญชาต่อบัญฑิต คณะวิทยาศาสตร์ มหาวิทยาลัยเชียงใหม่ สาขาวิทยาการคอมพิวเตอร์</h1>
+      <h1 class="ui center aligned header" *ngIf="showYear">{{yearTypeName}}&nbsp;&nbsp;{{yearValue}}</h1>
+      <h1 class="ui center aligned header" *ngIf="showAll">สรุปรวมทั้งหมด</h1>
+      <br>
+      <h2>รายงานสรุปผลความพึงพอใจของนายจ้างหรือผู้บังคับบัญชาต่อบัณฑิต</h2>
+      <div class="ui fitted divider"></div>
+      <br>
+      <br>
+      <p-chart type="bar" [data]="data"></p-chart>
+      <br>
+      <br>
+      <h2>รายงานสรุปคุณลักษณะที่พึงประสงค์ของบัณฑิต</h2>
+      <div class="ui fitted divider"></div>
+      <div class="ui bulleted list">
+        <div class="item" *ngFor="let data of traitTemp">{{data.answer}}</div>
+      </div>
+      <br>
+      <br>
+      <button class="ui button right" (click)="GeneratePDF()">ดาวน์โหลดเป็น PDF</button>
+      <button class="ui button" (click)="back()">กลับ</button>
+    </div>
+  </div>
+</div>

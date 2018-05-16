@@ -1,0 +1,61 @@
+<app-header-bar></app-header-bar>
+<div class="container">
+  <div id=content>
+    <div class="ui segment">
+      <br>
+      <h1 class="ui center aligned header">รายงานสำหรับแบบสอบถามความคิดเห็นของบัณฑิตต่อคุณภาพหลักสูตร</h1>
+      <h1 class="ui center aligned header" *ngIf="showYear">{{yearTypeName}}&nbsp;&nbsp;{{yearValue}}</h1>
+      <h1 class="ui center aligned header" *ngIf="showAll">สรุปรวมทั้งหมด</h1>
+      <br>
+      <h3>สรุปกระบวนวิชาที่เป็นประโยชน์ต่อการทำงาน</h3>
+      <div class="ui fitted divider"></div>
+      <div class="ui bulleted list" *ngFor="let data of workTemp">
+        <div *ngFor="let subject of subjectList | async">
+          <div class="item" *ngIf="data.subject_id == subject.key">{{data.subject_id}} {{subject.subject_name}}
+          </div>
+        </div>
+      </div>
+      <!-- <button class="ui button" (click)="download()">download</button> -->
+      <h3>สรุปกระบวนวิชาที่เป็นประโยชน์ต่อการศึกษาต่อ</h3>
+      <div class="ui fitted divider"></div>
+      <div class="ui bulleted list" *ngFor="let data of studyTemp">
+        <div *ngFor="let subject of subjectList | async">
+          <div class="item" *ngIf="data.subject_id == subject.key">{{data.subject_id}} {{subject.subject_name}}
+          </div>
+        </div>
+      </div>
+      <h3>สรุปกระบวนวิชาที่เป็นประโยชน์ต่อชีวิตประจำวัน</h3>
+      <div class="ui fitted divider"></div>
+      <div class="ui bulleted list" *ngFor="let data of dailyTemp">
+        <div *ngFor="let subject of subjectList | async">
+          <div class="item" *ngIf="data.subject_id == subject.key">{{data.subject_id}} {{subject.subject_name}}
+          </div>
+        </div>
+      </div>
+      <h3>สรุปสถิติการได้งาน</h3>
+      <div class="ui fitted divider"></div>
+      <br>
+      <!-- <b>เลือกปีการศึกษา</b>
+      <br>
+      <select class="ui selection dropdown" [(ngModel)]="selectedYear" (ngModelChange)="onChange($event)">
+        <option *ngFor="let year of yeartemp" [ngValue]="year">{{year}}</option>
+      </select>
+      <br>
+      <br> -->
+      <div>
+        <p-chart type="pie" [data]="data"></p-chart>
+        <h5>สรุปสถิติการได้งานของนักศึกษาปีการศึกษา&nbsp;{{this.selectedYear}}</h5>
+        <ul class="ui list">
+          <li>ได้งานแล้ว&nbsp;:&nbsp;{{a}}&nbsp;คน&nbsp;&nbsp;&nbsp;คิดเป็น&nbsp;&nbsp;{{(a/allCount) | percent}}</li>
+          <li>ศึกษาต่อ&nbsp;:&nbsp;{{b}}&nbsp;คน&nbsp;&nbsp;&nbsp;คิดเป็น&nbsp;&nbsp;{{(b/allCount) | percent}}</li>
+          <li>กำลังหางานทำ&nbsp;:&nbsp;{{c}}&nbsp;คน&nbsp;&nbsp;&nbsp;คิดเป็น&nbsp;&nbsp;{{(c/allCount) | percent}}</li>
+          <li>เตรียมตัวศึกษาต่อ&nbsp;:&nbsp;{{d}}&nbsp;คน&nbsp;&nbsp;&nbsp;คิดเป็น&nbsp;&nbsp;{{(d/allCount) | percent}}</li>
+        </ul>
+      </div>
+      <br>
+      <br>
+      <button class="ui button" (click)="GeneratePDF()">ดาวน์โหลดเป็น PDF</button>
+      <button class="ui button" (click)="back()">กลับ</button>
+    </div>
+  </div>
+</div>

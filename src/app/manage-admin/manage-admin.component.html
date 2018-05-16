@@ -1,0 +1,97 @@
+<app-header-bar></app-header-bar>
+<div class="ui grid">
+  <div class="four wide column">
+    <app-manage-user-header></app-manage-user-header>
+  </div>
+  <div class="twelve wide column">
+    <div class="twelve wide stretched column">
+      <div class="ui segment">
+        <table class="ui fixed single line celled table">
+          <thead>
+            <tr>
+              <th>ชื่อผู้ใช้</th>
+              <th>รหัสผ่าน</th>
+              <th>ชื่อ</th>
+              <th>นามสกุล</th>
+              <th>ตัวเลือก</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of list | async">
+              <!-- <td>{{data.key}}</td> -->
+              <td>{{data.key}}</td>
+              <td>{{data.staff_password}}</td>
+              <td>{{data.staff_firstname}}</td>
+              <td>{{data.staff_lastname}}</td>
+              <td>
+                <button type="button" (click)="setData(data)" data-toggle="modal" data-target="#editDataModal">แก้ไข</button>/
+                <button type="button" (click)="setDelAdmin(data)" data-toggle="modal" data-target="#deleteStaff">ลบ</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <button class="positive ui button" [routerLink]="'/add-admin'">เพิ่ม</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- edit -->
+<div class="modal fade" id="editDataModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">แก้ไขข้อมูลผู้ดูแลระบบ</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form (ngSubmit)="setData(setForm)" #setForm="ngForm" class="ui form">
+          <div class="field">
+            <label for="name">ชื่อผู้ใช้</label>
+            <input type="text" name="staff_username" ngModel [(ngModel)]="s_username">
+          </div>
+          <div class="field">
+            <label for="name">รหัสผ่าน</label>
+            <input type="text" name="staff_password" ngModel [(ngModel)]="s_password">
+          </div>
+          <div class="field">
+            <label for="name">ชื่อ</label>
+            <input type="text" name="staff_firstname" ngModel [(ngModel)]="s_firstname">
+          </div>
+          <div class="field">
+            <label for="name">นามสกุล</label>
+            <input type="text" name="staff_lastname" ngModel [(ngModel)]="s_lastname">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
+        <button type="button" class="btn btn-primary" (click)="editData(s_username,s_password,s_firstname,s_lastname)" data-dismiss="modal">บันทึก</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- delete -->
+<div class="modal fade" id="deleteStaff" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="exampleModalLabel">ลบผู้ดูแลระบบ</h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <b>ต้องการลบ&nbsp;:&nbsp;</b>{{s_username}}&nbsp;?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="delStaff()">ลบ</button>
+      </div>
+    </div>
+  </div>
+</div>
+

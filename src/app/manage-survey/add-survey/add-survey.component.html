@@ -1,0 +1,291 @@
+<app-header-bar></app-header-bar>
+<div class="container">
+  <div class="ui segment">
+    <div class="ui massive fluid transparent input">
+      <input type="text" placeholder="ชื่อแบบสอบถาม" [(ngModel)]="surveyName">
+    </div>
+    <div class="ui fitted divider"></div>
+    <br>
+    <div class="ui small fluid transparent input">
+      <input type="text" placeholder="คำอธิบายแบบสอบถาม" [(ngModel)]="description">
+    </div>
+    <div class="ui fitted divider"></div>
+    <br>
+    <div class="ui form">
+      <div class="inline fields">
+        <label>แบบสอบถามนี้สำหรับ:&nbsp;&nbsp; </label>
+        <div class="field">
+          <div class="ui radio checkbox">
+            <input type="radio" name="target" checked="checked" value="บัณฑิต" [(ngModel)]="target">
+            <label>บัณฑิต</label>
+          </div>
+        </div>
+        <div class="field">
+          <div class="ui radio checkbox">
+            <input type="radio" name="target" value="ผู้ประกอบการ" [(ngModel)]="target">
+            <label>ผู้ประกอบการ</label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ui teal segment">
+      <div *ngFor="let dataQuestion of questionList | async">
+        <div *ngIf="(dataQuestion.survey_id == surveyCount)">
+          <br>
+          <b *ngIf="dataQuestion.question_type != 9">คำถาม&nbsp;&nbsp; : &nbsp;&nbsp;{{dataQuestion.question}}</b>
+          <b *ngIf="dataQuestion.question_type == 9">คำอธิบาย&nbsp;&nbsp; : &nbsp;&nbsp;{{dataQuestion.question}}</b>
+          <div *ngFor="let dataChoice of choiceList | async">
+            <div *ngIf="dataChoice.question_id == dataQuestion.key">
+              {{dataChoice.choice}}
+            </div>
+          </div>
+          <div class="ui small basic icon buttons float-right">
+            <button class="ui button" (click)="setEditData(dataQuestion)" data-toggle="modal" data-target="#editQuestion">
+              <i class="edit outline icon"></i>
+            </button>
+            <button class="ui button" (click)="setDelQuestion(dataQuestion)" data-toggle="modal" data-target="#deleteQuestion">
+              <i class="trash alternate outline icon"></i>
+            </button>
+          </div>
+          <br>
+          <br>
+          <div class="ui fitted divider"></div>
+        </div>
+      </div>
+      <button class="ui basic button" type="button" data-toggle="modal" data-target="#addQuestion" (click)="setData(i)">
+        <i class="plus icon"></i>เพิ่มคำถาม
+      </button>
+      <br>
+    </div>
+    <br>
+    <button class="ui teal basic button" type="button" (click)="saveform()">
+      <i class="save icon"></i>บันทึก
+    </button>
+    <button class="ui secondary basic button" data-toggle="modal" data-target="#back">ยกเลิก</button>
+  </div>
+</div>
+
+<!-- add -->
+<div class="modal fade" id="addQuestion" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">เพิ่มคำถาม/เพิ่มคำอธิบาย</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form [formGroup]="choicesForm" class="ui form">
+        <div class="modal-body">
+          <div class="field">
+            <input type="text" placeholder="คำถาม/คำอธิบาย" formControlName="question" [(ngModel)]="questionData">
+          </div>
+          <div class="field">
+            <label>เลือกประเภทคำตอบ</label>
+            <br>
+            <select class="ui selection dropdown" formControlName="questionType" [(ngModel)]="selectedValue" (ngModelChange)="onChange($event)">
+              <option *ngFor="let data of questionTypeList | async" [ngValue]="data.key">{{data.question_type_name}}</option>
+            </select>
+          </div>
+          <!-- choice type -->
+          <!-- text box -->
+          <div *ngIf="selectedTextbox" class="ui disabled input">
+            <input type="text" placeholder="ข้อความคำตอบสั้นๆ">
+          </div>
+          <!-- textarea -->
+          <div *ngIf="selectedTextarea" class="ui fluid disabled input">
+            <input type="text" placeholder="ข้อความคำตอบแบบยาว">
+          </div>
+          <!-- rating -->
+          <div *ngIf="selectedRating" class="inline fields">
+            <div class="field">
+              <div class="ui disabled radio checkbox">
+                <input type="radio" name="rating" disabled="disabled">
+                <label>มากที่สุด</label>
+              </div>
+            </div>
+            <div class="field">
+              <div class="ui disabled radio checkbox">
+                <input type="radio" name="rating" disabled="disabled">
+                <label>มาก</label>
+              </div>
+            </div>
+            <div class="field">
+              <div class="ui disabled radio checkbox">
+                <input type="radio" name="rating" disabled="disabled">
+                <label>ปานกลาง</label>
+              </div>
+            </div>
+            <div class="field">
+              <div class="ui disabled radio checkbox">
+                <input type="radio" name="rating" disabled="disabled">
+                <label>น้อย</label>
+              </div>
+            </div>
+            <div class="field">
+              <div class="ui disabled radio checkbox">
+                <input type="radio" name="rating" disabled="disabled">
+                <label>น้อยที่สุด</label>
+              </div>
+            </div>
+          </div>
+          <!-- check box , drop down, radio -->
+          <div *ngIf="selectedOther">
+            <div formArrayName="choices" *ngFor="let c of choices.controls; let j = index;">
+              <div [formGroupName]="j">
+                <div class="field">
+                  <div class="ui input">
+                    <input type="text" placeholder="กรอกตัวเลือก" formControlName="choice">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <a class="item" (click)="addChoice()">
+              <i class="add circle icon"></i>เพิ่มคำตอบ
+            </a>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="clearData(choicesForm.value)" data-dismiss="modal">ยกเลิก</button>
+          <button type="button" class="btn btn-primary" (click)="saveData(choicesForm.value)" data-dismiss="modal">บันทึก</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- edit -->
+<div class="modal fade" id="editQuestion" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">แก้ไขคำถาม/แก้ไขตัวเลือก</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="clearData()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form class="ui form">
+        <div class="modal-body">
+          <div class="field">
+            <input type="text" placeholder="คำถาม" [(ngModel)]="editQuestion" [ngModelOptions]="{standalone: true}">
+          </div>
+          <div class="field">
+            <label>เลือกประเภทคำตอบ</label>
+            <br>
+            <select class="ui selection dropdown" [(ngModel)]="selectedValue" (ngModelChange)="onChange($event)" [ngModelOptions]="{standalone: true}">
+              <option *ngFor="let data of questionTypeList | async" [ngValue]="data.key">{{data.question_type_name}}</option>
+            </select>
+          </div>
+          <!-- choice type -->
+          <!-- text box -->
+          <div *ngIf="selectedTextbox" class="ui disabled input">
+            <input type="text" placeholder="ข้อความคำตอบสั้นๆ">
+          </div>
+          <!-- textarea -->
+          <div *ngIf="selectedTextarea" class="ui fluid disabled input">
+            <input type="text" placeholder="ข้อความคำตอบแบบยาว">
+          </div>
+          <!-- rating -->
+          <div *ngIf="selectedRating" class="inline fields">
+            <div class="field">
+              <div class="ui disable checkbox">
+                <input type="checkbox" name="rating" checked="checked">
+                <label>มากที่สุด</label>
+              </div>
+            </div>
+            <div class="field">
+              <div class="ui disable checkbox">
+                <input type="checkbox" name="rating" checked="checked">
+                <label>มาก</label>
+              </div>
+            </div>
+            <div class="field">
+              <div class="ui disable checkbox">
+                <input type="checkbox" name="rating" checked="checked">
+                <label>ปานกลาง</label>
+              </div>
+            </div>
+            <div class="field">
+              <div class="ui disable checkbox">
+                <input type="checkbox" name="rating" checked="checked">
+                <label>น้อย</label>
+              </div>
+            </div>
+            <div class="field">
+              <div class="ui disable checkbox">
+                <input type="checkbox" name="rating" checked="checked">
+                <label>น้อยที่สุด</label>
+              </div>
+            </div>
+          </div>
+          <!-- check box , drop down, radio -->
+          <div *ngIf="selectedOther">
+            <div *ngFor="let c of editChoice; let i = index;">
+              <div>
+                <div class="field">
+                  <div class="ui input">
+                    <input type="text" placeholder="กรอกตัวเลือก" [(ngModel)]="editChoice[i].choice" [ngModelOptions]="{standalone: true}">
+                    <a class="item" (click)="delEditChoice(i)">
+                      <i class="trash alternate outline large icon"></i>
+                    </a>
+                  </div>
+
+                </div>
+              </div>
+              <!-- choice: {{ choicesForm.controls.choices.controls[j].controls.choice.value }} -->
+            </div>
+            <a class="item" (click)="addEditChoice()">
+              <i class="add circle icon"></i>เพิ่มคำตอบ
+            </a>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="clearData()" data-dismiss="modal">ยกเลิก</button>
+          <button type="button" class="btn btn-primary" (click)="editData()" data-dismiss="modal">บันทึก</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- delete -->
+<div class="modal fade" id="deleteQuestion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title" id="exampleModalLabel">ลบคำถาม</h3>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <b>ต้องการลบ&nbsp;:&nbsp;</b>{{q_name}}&nbsp;?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="delData()">ลบ</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- back -->
+<div class="modal fade" id="back" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="exampleModalLabel">กลับสู่หน้าจัดการแบบสอบถาม</h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <b>ต้องการกลับสู่หน้าจัดการแบบสอบถาม&nbsp;?</b>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="back()">ตกลง</button>
+      </div>
+    </div>
+  </div>
+</div>

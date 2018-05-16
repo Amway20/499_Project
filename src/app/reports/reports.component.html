@@ -1,0 +1,140 @@
+<app-header-bar></app-header-bar>
+<div class="container">
+  <div class="ui segment">
+    <div class="manage-body">
+      <h2>เลือกดูรายงาน</h2>
+      <div class="ui clearing divider"></div>
+      <br>
+    </div>
+    <div class="ui equal width grid">
+      <div class="column">
+        <div class="ui segment">
+          <h3>รายงานสำหรับแบบสอบถามความคิดเห็นของบัณฑิตต่อคุณภาพหลักสูตร</h3>
+          <br>
+          <br>
+          <!-- <button class="fluid ui green button" [routerLink]="'/subject-report'">ดูรายงาน</button> -->
+          <button class="fluid ui green button" (click)="setData('1')" data-toggle="modal" data-target="#selectYearType">ดูรายงาน</button>
+          <button class="fluid ui purple button" (click)="setData('1')" data-toggle="modal" data-target="#selectDownloadType">ดาวน์โหลดคำตอบ</button>
+        </div>
+      </div>
+      <div class="column">
+        <div class="ui segment">
+          <h3>รายงานสำหรับแบบสอบถามภาวะการมีงานทำ การศึกษาต่อ หรือประกอบอาชีพอิสระ ของบัณฑิตภาควิชาวิทยาการคอมพิวเตอร์</h3>
+          <br>
+          <br>
+          <button class="fluid ui green button" (click)="setData('2')" data-toggle="modal" data-target="#selectYearType">ดูรายงาน</button>
+          <button class="fluid ui purple button" (click)="setData('2')" data-toggle="modal" data-target="#selectDownloadType">ดาวน์โหลดคำตอบ</button>
+        </div>
+      </div>
+      <div class="column">
+        <div class="ui segment">
+          <h3>รายงานสำหรับแบบสำรวจความพึงพอใจของนายจ้างหรือผู้บังคับบัญชาต่อบัญฑิต คณะวิทยาศาสตร์ มหาวิทยาลัยเชียงใหม่ สาขาวิทยาการคอมพิวเตอร์</h3>
+          <br>
+          <br>
+          <button class="fluid ui green button" (click)="setData('3')" data-toggle="modal" data-target="#selectYearType">ดูรายงาน</button>
+          <button class="fluid ui purple button" (click)="setData('3')" data-toggle="modal" data-target="#selectDownloadType">ดาวน์โหลดคำตอบ</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- select report year type -->
+<div class="modal fade" id="selectYearType" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="exampleModalLabel">เลือกปีการศึกษา/ปีที่กรอก</h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div *ngIf="surveyKey != 3">
+          <mat-radio-group class="example-radio-group" [(ngModel)]="radioValue" *ngFor="let data of yearType1">
+            <mat-radio-button class="example-radio-button" [value]="data" (click)="radioCheckValue(data)">
+              {{data}}&nbsp;&nbsp;&nbsp;&nbsp;
+            </mat-radio-button>
+          </mat-radio-group>
+        </div>
+        <div *ngIf="surveyKey == 3">
+            <mat-radio-group class="example-radio-group" [(ngModel)]="radioValue" *ngFor="let data of yearType2">
+              <mat-radio-button class="example-radio-button" [value]="data" (click)="radioCheckValue(data)">
+                {{data}}&nbsp;&nbsp;&nbsp;&nbsp;
+              </mat-radio-button>
+            </mat-radio-group>
+          </div>
+        <div *ngIf="studentIdDropDown">
+          <br>
+          <b>เลือกปีการศึกษา</b>
+          <br>
+          <select class="ui selection dropdown" [(ngModel)]="selectedYear">
+            <option *ngFor="let studentId of studentIdTemp" [ngValue]="studentId">{{studentId}}</option>
+          </select>
+        </div>
+        <div *ngIf="yearDropDown">
+          <br>
+          <b>เลือกปีที่กรอก</b>
+          <br>
+          <select class="ui selection dropdown" [(ngModel)]="selectedYear">
+            <option *ngFor="let year of yeartemp" [ngValue]="year">{{year}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clearData()">ยกเลิก</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="goToReport()">ดูรายงาน</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- select download year type -->
+<div class="modal fade" id="selectDownloadType" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="exampleModalLabel">เลือกปีการศึกษา/ปีที่กรอก</h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div *ngIf="surveyKey != 3">
+          <mat-radio-group class="example-radio-group" [(ngModel)]="radioValue" *ngFor="let data of yearType1">
+            <mat-radio-button class="example-radio-button" [value]="data" (click)="radioCheckValue(data)">
+              {{data}}&nbsp;&nbsp;&nbsp;&nbsp;
+            </mat-radio-button>
+          </mat-radio-group>
+        </div>
+        <div *ngIf="surveyKey == 3">
+            <mat-radio-group class="example-radio-group" [(ngModel)]="radioValue" *ngFor="let data of yearType2">
+              <mat-radio-button class="example-radio-button" [value]="data" (click)="radioCheckValue(data)">
+                {{data}}&nbsp;&nbsp;&nbsp;&nbsp;
+              </mat-radio-button>
+            </mat-radio-group>
+          </div>
+        <div *ngIf="studentIdDropDown">
+          <br>
+          <b>เลือกปีการศึกษา</b>
+          <br>
+          <select class="ui selection dropdown" [(ngModel)]="selectedYear">
+            <option *ngFor="let studentId of studentIdTemp" [ngValue]="studentId">{{studentId}}</option>
+          </select>
+        </div>
+        <div *ngIf="yearDropDown">
+          <br>
+          <b>เลือกปีที่กรอก</b>
+          <br>
+          <select class="ui selection dropdown" [(ngModel)]="selectedYear">
+            <option *ngFor="let year of yeartemp" [ngValue]="year">{{year}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clearData()">ยกเลิก</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="downloadAnswer()">ดาวน์โหลดคำตอบ</button>
+      </div>
+    </div>
+  </div>
+</div>

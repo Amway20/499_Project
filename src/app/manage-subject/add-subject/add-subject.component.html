@@ -1,0 +1,21 @@
+<app-header-bar></app-header-bar>
+<div class="ui grid">
+  <div class="four wide column">
+    <app-manage-user-header></app-manage-user-header>
+  </div>
+  <div class="twelve wide column">
+    <div class="twelve wide stretched column">
+      <div class="ui segment">
+        <h1>เพิ่มกระบวนวิชา</h1>
+        <form (ngSubmit)="addSubject(addSubjectForm)" #addSubjectForm="ngForm">
+          <label for="subject_id">รหัสวิชา</label>
+            <input type="text" name="subject_id" ngModel> <br>
+          <label for="subject_name">ชื่อวิชา</label>
+            <input type="text" name="subject_name" ngModel> <br>
+          <button type="submit">เพิ่ม</button>
+          <button type="button" [routerLink]="'/manage-subject'">ยกเลิก</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

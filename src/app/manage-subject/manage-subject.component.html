@@ -1,0 +1,124 @@
+<app-header-bar></app-header-bar>
+<div class="manage-container container">
+  <div class="ui segment">
+    <table class="ui fixed single line celled table">
+      <thead>
+        <tr>
+          <th>รหัสวิชา</th>
+          <th>ชื่อวิชา</th>
+          <th>ประเภทวิชา</th>
+          <th>ตัวเลือก</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of list | async">
+          <!-- <td>{{data.key}}</td> -->
+          <td>{{data.key}}</td>
+          <td>{{data.subject_name}}</td>
+          <td>{{data.subject_type}}</td>
+          <td>
+            <button type="button" (click)="setData(data)" data-toggle="modal" data-target="#editDataModal">แก้ไข</button>/
+            <button type="button" (click)="setDelSubject(data)" data-toggle="modal" data-target="#deleteSubject">ลบ</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <button class="positive ui button" data-toggle="modal" data-target="#addDataModal">เพิ่ม</button>
+  </div>
+</div>
+
+<!-- Add Subject -->
+<div class="modal fade" id="addDataModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">เพิ่มกระบวนวิชา</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form #addSubjectForm="ngForm" class="ui form">
+          <div class="field">
+            <label for="subject_id">รหัสวิชา</label>
+            <input type="text" name="subject_id" [(ngModel)]="add_subject_id" [ngModelOptions]="{standalone: true}">
+          </div>
+          <div class="field">
+            <label for="subject_name">ชื่อวิชา</label>
+            <input type="text" name="subject_name" [(ngModel)]="add_subject_name" [ngModelOptions]="{standalone: true}">
+          </div>
+          <div class="field">
+            <label for="subject_type">ประเภทวิชา</label>
+            <select class="ui selection dropdown" [(ngModel)]="add_subject_type" [ngModelOptions]="{standalone: true}">
+              <option value="กระบวนวิชาเอก">กระบวนวิชาเอก</option>
+              <option value="กระบวนวิชาพื้นฐานสังคมฯ-มนุษย์ฯ">กระบวนวิชาพื้นฐานสังคมฯ-มนุษย์ฯ</option>
+            </select>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="clearData(addSubjectForm)" data-dismiss="modal">ยกเลิก</button>
+        <button type="button" class="btn btn-primary" (click)="addData(addSubjectForm)" data-dismiss="modal">บันทึก</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Subject -->
+<div class="modal fade" id="editDataModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">แก้ไขข้อมูลกระบวนวิชา</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form (ngSubmit)="setData(addSubjectForm)" #addSubjectForm="ngForm" class="ui form">
+          <div class="field">
+            <!-- <label for="name">รหัสวิชา</label> -->
+            <h2>รหัสวิชา: {{s_id}}</h2>
+            <!-- <inputl type="text" name="subject_id" ngModel [(ngModel)]="s_id"> -->
+          </div>
+          <div class="field">
+            <label for="name">ชื่อวิชา</label>
+            <input type="text" name="subject_name" ngModel [(ngModel)]="s_name" [ngModelOptions]="{standalone: true}">
+          </div>
+          <div class="field">
+              <label for="subject_type">ประเภทวิชา</label>
+            <select class="ui selection dropdown" [(ngModel)]="s_type" [ngModelOptions]="{standalone: true}">
+              <option value="กระบวนวิชาเอก">กระบวนวิชาเอก</option>
+              <option value="กระบวนวิชาพื้นฐานสังคมฯ-มนุษย์ฯ">กระบวนวิชาพื้นฐานสังคมฯ-มนุษย์ฯ</option>
+            </select>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
+        <button type="button" class="btn btn-primary" (click)="editData()" data-dismiss="modal">บันทึก</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- delete -->
+<div class="modal fade" id="deleteSubject" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="exampleModalLabel">ลบกระบวนวิชา</h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <b>ต้องการลบ&nbsp;:&nbsp;</b>{{s_id}}&nbsp;&nbsp;{{s_name}}&nbsp;?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="delSubject()">ลบ</button>
+      </div>
+    </div>
+  </div>
+</div>

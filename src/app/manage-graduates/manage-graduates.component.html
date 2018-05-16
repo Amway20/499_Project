@@ -1,0 +1,105 @@
+<app-header-bar></app-header-bar>
+<div class="ui grid">
+  <div class="four wide column">
+    <app-manage-user-header></app-manage-user-header>
+  </div>
+  <div class="twelve wide column">
+    <div class="twelve wide stretched column">
+      <div class="ui segment">
+        <div class="ui search">
+          <div class="ui icon input">
+            <input class="prompt" type="text" [(ngModel)]="searchData" placeholder="ค้นหาบัณฑิต..." (keyup.enter)="search()">
+          </div>
+          <button class="circular primary basic ui icon button" (click)="search()">
+            <i class="search icon"></i>
+            ค้นหา
+          </button>
+          <button class="circular grey basic ui icon button" (click)="searchAll()">
+            ดูทั้งหมด
+          </button>
+        </div>
+        <table class="ui fixed single line celled table">
+          <thead>
+            <tr>
+              <th>รหัสนักศึกษา</th>
+              <th>ชื่อ</th>
+              <th>นามสกุล</th>
+              <th>ตัวเลือก</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of studentTemp">
+              <!-- <td>{{data.key}}</td> -->
+              <td>{{data.key}}</td>
+              <td>{{data.student_firstname}}</td>
+              <td>{{data.student_lastname}}</td>
+              <!-- <td><button type="button" [routerLink]="['/edit-admin', data.key]">แก้ไข</button>/<button type="button" (click)="delGrad(data)">ลบ</button></td> -->
+              <!-- <button type="button" (click)="setData(data)" class="ui green button" data-toggle="modal" data-target="#exampleModalCenter">แก้ไข</button> -->
+              <td>
+                <button type="button" (click)="setData(data)" data-toggle="modal" data-target="#editDataModal">แก้ไข</button>/
+                <button type="button" (click)="setDelStudent(data)" data-toggle="modal" data-target="#deleteStudent">ลบ</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <button class="positive ui button" [routerLink]="'/add-grad'">เพิ่ม</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="editDataModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">แก้ไขข้อมูลบัณฑิต : {{s_id}}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form (ngSubmit)="setData(setForm)" #setForm="ngForm" class="ui form">
+          <div class="field">
+            <!-- <h2>รหัสนักศึกษา: {{s_id}}</h2> -->
+            <div class="ui large label">รหัสนักศึกษา: {{s_id}}</div>
+            <!-- <label for="name">รหัสนักศึกษา</label>
+            <input type="text" name="student_id" ngModel [(ngModel)]="s_id"> -->
+          </div>
+          <div class="field">
+            <label for="name">ชื่อ</label>
+            <input type="text" name="student_firstname" ngModel [(ngModel)]="s_firstname">
+          </div>
+          <div class="field">
+            <label for="name">นามสกุล</label>
+            <input type="text" name="student_lastname" ngModel [(ngModel)]="s_lastname">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
+        <button type="button" class="btn btn-primary" (click)="editData(s_id,s_password,s_firstname,s_lastname)" data-dismiss="modal">บันทึก</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- delete -->
+<div class="modal fade" id="deleteStudent" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="exampleModalLabel">ลบบัณฑิต</h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <b>ต้องการลบ&nbsp;:&nbsp;</b>({{s_id}})&nbsp;&nbsp;{{s_firstname}}&nbsp;&nbsp;{{s_lastname}}&nbsp;?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="deleteData()">ลบ</button>
+      </div>
+    </div>
+  </div>
+</div>

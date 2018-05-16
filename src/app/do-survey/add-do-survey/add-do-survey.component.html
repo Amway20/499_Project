@@ -1,0 +1,217 @@
+<!-- header -->
+<div>
+  <br>
+  <br>
+  <h1 class="ui horizontal divider header">
+    <i class="file alternate outline icon"></i>
+    Survey Management
+  </h1>
+  <h5 class="ui center aligned header">
+    Computer Science Department, CMU
+  </h5>
+  <br>
+</div>
+
+<div class="header-bar">
+  <div class="ui secondary pointing menu">
+    <a class="item">
+      <h3>Survey Management</h3>
+    </a>
+    <div class="right menu">
+      <a class="item">
+        <b>{{targetID}}</b>
+      </a>
+      <a class="item" (click)="logout()">
+        <b>ออกจากระบบ</b>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- body -->
+<div class="container">
+  <div class="ui segment">
+    <div class="ui basic buttons">
+      <div class="ui button" (click)="back()">
+        <i class="angle left icon"></i>ย้อนกลับ
+      </div>
+    </div>
+    <br>
+    <br>
+    <div *ngFor="let dataSurvey of surveyList | async">
+      <div *ngIf="(dataSurvey.key == survey_key)">
+        <h2 class="ui left header">{{dataSurvey.survey_name}}</h2>
+        <b>คำอธิบาย:</b>&nbsp;&nbsp;{{dataSurvey.description}}
+        <div class="ui clearing divider"></div>
+        <div *ngFor="let dataQuestion of questions; let i = index;">
+          <!-- <div *ngIf="(dataQuestion.survey_id == survey_key)"> -->
+          <b>{{dataQuestion.question}}</b>
+          <br *ngIf="dataQuestion.question_type != '8'">
+          <br *ngIf="dataQuestion.question_type != '8'">
+          <!-- text box -->
+          <div *ngIf="(dataQuestion.question_type == 1)">
+            <div *ngIf="(dataQuestion.key == 1 || dataQuestion.key == 2 || dataQuestion.key == 22 || dataQuestion.key == 23)" class="ui fluid icon disabled input">
+              <input type="text" [(ngModel)]="allAnswer[i]['answer']">
+            </div>
+            <div *ngIf="(dataQuestion.key != 1 && dataQuestion.key != 2 && dataQuestion.key != 22 && dataQuestion.key != 23)" class="ui fluid icon input">
+              <input type="text" [(ngModel)]="allAnswer[i]['answer']">
+            </div>
+          </div>
+          <!-- textarea -->
+          <div *ngIf="(dataQuestion.question_type == 2)" class="form-group">
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" [(ngModel)]="allAnswer[i]['answer']"></textarea>
+          </div>
+          <!-- check box -->
+          <div *ngIf="(dataQuestion.question_type == 3)">
+            <div *ngFor="let dataChoice of choiceList | async ; let j = index">
+              <div *ngIf="(dataQuestion.key == dataChoice.question_id)">
+                <section class="example-section">
+                  <mat-checkbox class="example-margin" [value]="dataChoice.choice" [(ngModel)]="checkbox[j]" (change)="saveCheckbox(dataChoice.choice,i,j)">{{dataChoice.choice}}</mat-checkbox>
+                </section>
+              </div>
+            </div>
+          </div>
+          <!-- drop down -->
+          <div *ngIf="(dataQuestion.question_type == 4)">
+            <select class="ui selection dropdown" (click)="listChoices(i)" [(ngModel)]="allAnswer[i]['answer']">
+              <option class="default text">{{allAnswer[i]['answer']}}</option>
+              <option *ngFor="let dataChoice of choices" [ngValue]="dataChoice.choice">{{dataChoice.choice}}</option>
+            </select>
+          </div>
+          <!-- radio -->
+          <div *ngIf="(dataQuestion.question_type == 5)">
+            <div *ngFor="let dataChoice of choiceList | async">
+              <div *ngIf="(dataQuestion.key == dataChoice.question_id)">
+                <mat-radio-group class="example-radio-group" [(ngModel)]="radioTemp[i]">
+                  <mat-radio-button class="example-radio-button" [value]="dataChoice.choice" (click)="radioCheckValue(dataChoice.choice,i)">
+                    {{dataChoice.choice}}
+                  </mat-radio-button>
+                </mat-radio-group>
+              </div>
+            </div>
+            <div *ngIf="(otherAnswer[i])" class="ui icon input">
+              <input type="text" [(ngModel)]="allAnswer[i]['answer']">
+            </div>
+          </div>
+          <!-- Rating -->
+          <div *ngIf="(dataQuestion.question_type == 6)">
+            <mat-radio-group class="example-radio-group inline" [(ngModel)]="allAnswer[i]['answer']">
+              <mat-radio-button class="example-radio-button" [value]="5">
+                มากที่สุด&nbsp;&nbsp;&nbsp;&nbsp;
+              </mat-radio-button>
+              <mat-radio-button class="example-radio-button" [value]="4">
+                มาก&nbsp;&nbsp;&nbsp;&nbsp;
+              </mat-radio-button>
+              <mat-radio-button class="example-radio-button" [value]="3">
+                ปานกลาง&nbsp;&nbsp;&nbsp;&nbsp;
+              </mat-radio-button>
+              <mat-radio-button class="example-radio-button" [value]="2">
+                น้อย&nbsp;&nbsp;&nbsp;&nbsp;
+              </mat-radio-button>
+              <mat-radio-button class="example-radio-button" [value]="1">
+                น้อยที่สุด&nbsp;&nbsp;&nbsp;&nbsp;
+              </mat-radio-button>
+            </mat-radio-group>
+          </div>
+          <!-- Subject Major-->
+          <div *ngIf="(dataQuestion.question_type == 7)">
+            <div class="inline fields">
+              <div class="field">
+                <select class="ui selection dropdown" [(ngModel)]="selectedSubject[dataQuestion.key]" (ngModelChange)="onChange($event,dataQuestion.key)">
+                  <!-- <option class="default text">{{subjectAnswer['']}}</option> -->
+                  <option *ngFor="let data of subjectMajor" [ngValue]="data.key">{{data.subject_name}}</option>
+                </select>
+              </div>
+              <div class="field">
+                <a class="item" data-toggle="modal" data-target="#addMajorSubject">
+                  <i class="add circle icon"></i>เพิ่มกระบวนวิชาอื่นๆ
+                </a>
+              </div>
+            </div>
+            <br>
+            <b>เหตุผล</b>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" [(ngModel)]="allAnswer[i]['answer']"></textarea>
+          </div>
+          <!-- Subject Other-->
+          <div *ngIf="(dataQuestion.question_type == 8)">
+            <div class="inline fields">
+              <div class="field">
+                <select class="ui selection dropdown" [(ngModel)]="selectedSubject[dataQuestion.key]" (ngModelChange)="onChange($event,dataQuestion.key)">
+                  <option class="default text">{{allAnswer[i]['answer']}}</option>
+                  <option *ngFor="let data of subjectOther" [ngValue]="data.key">{{data.subject_name}}</option>
+                </select>
+              </div>
+              <div class="field">
+                <a class="item" data-toggle="modal" data-target="#addOtherSubject">
+                  <i class="add circle icon"></i>เพิ่มกระบวนวิชาอื่นๆ
+                </a>
+              </div>
+            </div>
+            <br>
+            <b>เหตุผล</b>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" [(ngModel)]="allAnswer[i]['answer']"></textarea>
+          </div>
+          <br>
+          <br>
+        </div>
+        <button class="ui button" (click)="savedata()">ส่งคำตอบ</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- add major subject -->
+<div class="modal fade" id="addMajorSubject" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">เพิ่มกระบวนวิชาเอก</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form class="ui form">
+        <div class="modal-body">
+          <div class="field">
+            <input type="text" placeholder="รหัสวิชา" [(ngModel)]="subjectId" [ngModelOptions]="{standalone: true}">
+          </div>
+          <div class="field">
+            <input type="text" placeholder="ชื่อวิชา" [(ngModel)]="subjectName" [ngModelOptions]="{standalone: true}">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
+          <button type="button" class="btn btn-primary" (click)="saveMajorSubject()" data-dismiss="modal">บันทึก</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- add other subject -->
+<div class="modal fade" id="addOtherSubject" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">เพิ่มกระบวนวิชาพื้นฐานสังคมฯ-มนุษย์ฯ</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form class="ui form">
+        <div class="modal-body">
+          <div class="field">
+            <input type="text" placeholder="รหัสวิชา" [(ngModel)]="subjectId" [ngModelOptions]="{standalone: true}">
+          </div>
+          <div class="field">
+            <input type="text" placeholder="ชื่อวิชา" [(ngModel)]="subjectName" [ngModelOptions]="{standalone: true}">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">ยกเลิก</button>
+          <button type="button" class="btn btn-primary" (click)="saveOtherSubject()" data-dismiss="modal">บันทึก</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

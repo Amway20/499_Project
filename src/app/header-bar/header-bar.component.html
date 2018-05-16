@@ -1,0 +1,41 @@
+<!-- <h2>{{title}}</h2> -->
+<div>
+    <br><br>
+    <h1 class="ui horizontal divider header">
+        <i class="file alternate outline icon"></i>
+        Survey Management
+    </h1>
+    <h5 class="ui center aligned header">
+      Computer Science Department, CMU
+    </h5>
+    <br>
+</div>
+
+<div class="header-bar">
+  <div class="ui secondary pointing menu">
+    <a class="item" >
+      <h3>Survey Management</h3>
+    </a>
+    <a class="item" [routerLink]="'/manage-graduates'" routerLinkActive="active">
+      จัดการผู้ใช้
+    </a>
+    <a class="item" [routerLink]="'/manage-subject'" routerLinkActive="active">
+      จัดการกระบวนวิชา
+    </a>
+    <a class="item" [routerLink]="'/manage-survey'" routerLinkActive="active">
+      จัดการแบบสอบถาม
+    </a>
+    <a class="item" [routerLink]="'/reports'" routerLinkActive="active">
+      จัดการรายงาน
+    </a>
+    <div class="right menu">
+      <a class="ui item" [routerLink]="'/login'">
+        ออกจากระบบ
+      </a>
+    </div>
+  </div>
+  <!-- <div class="ui segment">
+    <p></p>
+  </div> -->
+</div>
+

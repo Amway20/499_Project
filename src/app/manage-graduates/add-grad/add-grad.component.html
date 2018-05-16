@@ -1,0 +1,75 @@
+<app-header-bar></app-header-bar>
+<div class="ui grid">
+  <div class="four wide column">
+    <app-manage-user-header></app-manage-user-header>
+  </div>
+  <div class="twelve wide column">
+    <div class="twelve wide stretched column">
+      <div class="ui segment">
+        <h1>เพิ่มข้อมูลบัณฑิต</h1>
+        <br>
+        <b>เพิ่มข้อมูลจากไฟล์EXCEL</b>
+        <br>
+        <br>
+        <input type="file" style="display: inline-block;" (change)="incomingfile($event)" placeholder="Upload file" accept=".xlsx">
+        <button type="button" class="ui positive basic button" (click)="Upload()" data-toggle="modal" data-target="#showDataModal">Upload</button>
+        <div class="ui horizontal divider">
+          Or
+        </div>
+        <form (ngSubmit)="addGrad()" class="ui form">
+          <h4 for="student_id">รหัสนักศึกษา: </h4>
+          <div class="ui fluid icon input">
+            <input type="text" name="student_id" [(ngModel)]="student_id">
+          </div>
+          <h4 for="student_firstname">ชื่อ: </h4>
+          <div class="ui fluid icon input">
+            <input type="text" name="student_firstname" [(ngModel)]="student_firstname">
+          </div>
+          <h4 for="student_lastname">นามสกุล: </h4>
+          <div class="ui fluid icon input">
+            <input type="text" name="student_lastname" [(ngModel)]="student_lastname">
+          </div>
+          <br>
+          <button type="submit" class="ui green button">เพิ่ม</button>
+          <button type="button" class="ui red button" [routerLink]="'/manage-graduates'">ยกเลิก</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- show upload data -->
+<div class="modal fade" id="showDataModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">เพิ่มข้อมูลบัณฑิต</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <table class="ui fixed single line celled table">
+          <thead>
+            <tr>
+              <th>รหัสนักศึกษา</th>
+              <th>ชื่อ</th>
+              <th>นามสกุล</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of studentData">
+              <td>{{data.student_id}}</td>
+              <td>{{data.student_firstname}}</td>
+              <td>{{data.student_lastname}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="clearData()" data-dismiss="modal">ยกเลิก</button>
+        <button type="button" class="btn btn-primary" (click)="addDataExcel()" data-dismiss="modal">เพิ่ม</button>
+      </div>
+    </div>
+  </div>
+</div>
