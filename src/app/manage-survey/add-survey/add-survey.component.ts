@@ -422,13 +422,25 @@ export class AddSurveyComponent implements OnInit {
       console.log(this.deleteChoice)
   }
 
-  clearData() {
+  clearData(formValue: any) {
+    console.log(formValue);
+    let j = 0;
+    formValue.choices.forEach(tmp => {
+        j = j + 1;
+    })
     this.editChoice = [];
     this.editQuestion = '';
     this.selectedValue = '';
     this.deleteChoice = [];
     this.questionCount = this.questionCount - 1;
     this.questionData = '';
+    this.choicesForm.reset();
+    const control = <FormArray>this.choicesForm.controls['choices'];
+    for (let c = j; c > 0; c--) {
+      control.removeAt(c);
+      console.log(c);
+    }
+
   }
 
   goToManageSurvey() {

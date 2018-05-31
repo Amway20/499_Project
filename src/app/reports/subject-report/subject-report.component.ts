@@ -220,151 +220,7 @@ export class SubjectReportComponent implements OnInit {
           };
 
         }
-
-
-
       });
-
-      // if (this.yearType == 'ดูรายงานตามปีการศึกษา') {
-      //   if (this.doSurveyTemp.find(item => item.target_id.substring(0, 2) == this.yearValue.substring(2, 4))) {
-      //     let index = this.doSurveyTemp.findIndex(item => item.target_id.substring(0, 2) == this.yearValue.substring(2, 4) && item.key == tmp.do_survey_id);
-      //     console.log();
-
-      //     console.log(this.doSurveyTemp[index]);
-
-      //     if (this.doSurveyTemp[index].key == tmp.do_survey_id) {
-      //       // work
-      //       if (tmp.question_id == '10') {
-      //         this.temp = tmp.answer.substring(0, [6]);
-      //         if (this.workTemp.find(item => item['subject_id'] == this.temp)) {
-      //           this.index = this.workTemp.findIndex(item => item['subject_id'] == this.temp);
-      //           this.workTemp[this.index]['count']++;
-      //         } else {
-      //           const data = {
-      //             subject_id: this.temp,
-      //             count: 1
-      //           }
-      //           this.workTemp.push(data);
-      //         }
-      //       }
-      //       // study
-      //       if (tmp.question_id == '11') {
-      //         this.temp = tmp.answer.substring(0, [6]);
-      //         if (this.studyTemp.find(item => item['subject_id'] == this.temp)) {
-      //           this.index = this.studyTemp.findIndex(item => item['subject_id'] == this.temp);
-      //           this.studyTemp[this.index]['count']++;
-      //         } else {
-      //           const data = {
-      //             subject_id: this.temp,
-      //             count: 1
-      //           }
-      //           this.studyTemp.push(data);
-      //         }
-      //       }
-      //       // daily
-      //       if (tmp.question_id == '12') {
-      //         this.temp = tmp.answer.substring(0, [6]);
-      //         if (this.dailyTemp.find(item => item['subject_id'] == this.temp)) {
-      //           this.index = this.dailyTemp.findIndex(item => item['subject_id'] == this.temp);
-      //           this.dailyTemp[this.index]['count']++;
-      //         } else {
-      //           const data = {
-      //             subject_id: this.temp,
-      //             count: 1
-      //           }
-      //           this.dailyTemp.push(data);
-      //         }
-      //       }
-      //       // graph
-      //       if (tmp.question_id == '6') {
-      //         if (this.doSurveyTemp.find(item => item.key == tmp.do_survey_id)) {
-      //           let index = this.doSurveyTemp.findIndex(item => item.key == tmp.do_survey_id);
-      //           this.targetId = this.doSurveyTemp[index].target_id;
-      //           let x = this.targetId.toString();
-      //           let year = '25' + x.substring(0, 2);
-      //           if (this.doSurveyTemp[index].key == tmp.do_survey_id && year == this.yearValue) {
-      //             if (tmp.answer == 'ได้งานแล้ว') {
-      //               this.a = this.a + 1;
-      //             } else if (tmp.answer == 'ศึกษาต่อ') {
-      //               this.b = this.b + 1;
-      //             } else if (tmp.answer == 'กำลังหางานทำ') {
-      //               this.c = this.c + 1;
-      //             } else {
-      //               this.d = this.d + 1;
-      //             }
-      //           }
-      //         }
-      //       }
-      //       this.allCount = this.a + this.b + this.c + this.d;
-      //       this.data = {
-      //         labels: ['ได้งานแล้ว', 'ศึกษาต่อ', 'กำลังหางานทำ', 'เตรียมตัวศึกษาต่อ'],
-      //         datasets: [
-      //           {
-      //             data: [this.a, this.b, this.c, this.d],
-      //             backgroundColor: [
-      //               "#FF6384",
-      //               "#36A2EB",
-      //               "#FFCE56",
-      //               "#66FF33"
-      //             ],
-      //             hoverBackgroundColor: [
-      //               "#FF6384",
-      //               "#36A2EB",
-      //               "#FFCE56",
-      //               "#66FF33"
-      //             ]
-      //           }]
-      //       };
-
-      //     }
-
-      //   }
-      // } else if (this.yearType == 'ดูรายงานตามปีที่กรอก') {
-
-      // }
-
-      // if (tmp.question_id == '10') {
-      //   this.temp = tmp.answer.substring(0, [6]);
-      //   if (this.workTemp.find(item => item['subject_id'] == this.temp)) {
-      //     this.index = this.workTemp.findIndex(item => item['subject_id'] == this.temp);
-      //     this.workTemp[this.index]['count']++;
-      //   } else {
-      //     const data = {
-      //       subject_id: this.temp,
-      //       count: 1
-      //     }
-      //     this.workTemp.push(data);
-      //   }
-      // }
-
-      // if (tmp.question_id == '11') {
-      //   this.temp = tmp.answer.substring(0, [6]);
-      //   if (this.studyTemp.find(item => item['subject_id'] == this.temp)) {
-      //     this.index = this.studyTemp.findIndex(item => item['subject_id'] == this.temp);
-      //     this.studyTemp[this.index]['count']++;
-      //   } else {
-      //     const data = {
-      //       subject_id: this.temp,
-      //       count: 1
-      //     }
-      //     this.studyTemp.push(data);
-      //   }
-      // }
-
-      // if (tmp.question_id == '12') {
-      //   this.temp = tmp.answer.substring(0, [6]);
-      //   if (this.dailyTemp.find(item => item['subject_id'] == this.temp)) {
-      //     this.index = this.dailyTemp.findIndex(item => item['subject_id'] == this.temp);
-      //     this.dailyTemp[this.index]['count']++;
-      //   } else {
-      //     const data = {
-      //       subject_id: this.temp,
-      //       count: 1
-      //     }
-      //     this.dailyTemp.push(data);
-      //   }
-      // }
-      // });
 
       this.workTemp.sort((a, b) => {
         if (a['count'] < b['count']) return 1;
@@ -387,66 +243,7 @@ export class SubjectReportComponent implements OnInit {
       });
       console.log(this.dailyTemp);
     });
-
-
-
   }
-
-  // public onChange(newValue) {
-  //   this.a = 0;
-  //   this.b = 0;
-  //   this.c = 0;
-  //   this.d = 0;
-  //   this.allCount = 0;
-  //   // console.log(newValue);
-  //   // console.log(this.selectedYear);
-  //   this.showGraph = true;
-
-  //   this.answerList.subscribe(data => {
-  //     data.forEach(tmp => {
-  //       if (tmp.question_id == '6') {
-  //         if (this.doSurveyTemp.find(item => item.key == tmp.do_survey_id)) {
-  //           let index = this.doSurveyTemp.findIndex(item => item.key == tmp.do_survey_id);
-  //           this.targetId = this.doSurveyTemp[index].target_id;
-  //           let x = this.targetId.toString();
-  //           let year = '25' + x.substring(0, 2);
-  //           if (this.doSurveyTemp[index].key == tmp.do_survey_id && year == this.selectedYear) {
-  //             if (tmp.answer == 'ได้งานแล้ว') {
-  //               this.a = this.a + 1;
-  //             } else if (tmp.answer == 'ศึกษาต่อ') {
-  //               this.b = this.b + 1;
-  //             } else if (tmp.answer == 'กำลังหางานทำ') {
-  //               this.c = this.c + 1;
-  //             } else {
-  //               this.d = this.d + 1;
-  //             }
-  //           }
-  //         }
-  //       }
-  //     });
-  //     this.allCount = this.a + this.b + this.c + this.d;
-  //     this.data = {
-  //       labels: ['ได้งานแล้ว', 'ศึกษาต่อ', 'กำลังหางานทำ', 'เตรียมตัวศึกษาต่อ'],
-  //       datasets: [
-  //         {
-  //           data: [this.a, this.b, this.c, this.d],
-  //           backgroundColor: [
-  //             "#FF6384",
-  //             "#36A2EB",
-  //             "#FFCE56",
-  //             "#66FF33"
-  //           ],
-  //           hoverBackgroundColor: [
-  //             "#FF6384",
-  //             "#36A2EB",
-  //             "#FFCE56",
-  //             "#66FF33"
-  //           ]
-  //         }]
-  //     };
-  //   })
-  // }
-
 
   GeneratePDF() {
     html2canvas(document.getElementById('content')).then(function (canvas) {
@@ -456,7 +253,7 @@ export class SubjectReportComponent implements OnInit {
       pdf.addHTML(canvas, function () {
         pdf.save('work_survey_report.pdf');
       });
-      window.location.reload();
+      // window.location.reload();
     });
     
   }

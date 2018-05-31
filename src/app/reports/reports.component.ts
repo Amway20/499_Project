@@ -233,6 +233,8 @@ export class ReportsComponent implements OnInit {
         } else {
           this.yearTmp = undefined;
         }
+        console.log(this.yearTmp);
+        console.log(this.selectedYear);
         if (this.yearTmp == this.selectedYear) {
           for (let i = 0; i < this.answers.length; i++) {
             if (this.answers[i].do_survey_id == tmp.key) {
@@ -242,7 +244,7 @@ export class ReportsComponent implements OnInit {
             }
           }
           this.answerTemp.push(tmp.date);
-          // console.log(this.answerTemp);
+          console.log(this.answerTemp);
           if (tmp.survey_id == '1') {
             const answer = {
               question1: this.answerTemp[0],
@@ -273,7 +275,7 @@ export class ReportsComponent implements OnInit {
           }
         }
       });
-      // console.log(this.subjectExcel);
+      console.log(this.subjectExcel);
 
       this.excelService.exportAsExcelFile(this.subjectExcel, 'subject');
       this.subjectExcel = [];

@@ -127,7 +127,7 @@ export class CompanyReportComponent implements OnInit {
         pdf.save('survey_report_for_company.pdf');
       });
     });
-    window.location.reload();
+    // window.location.reload();
   }
 
   back() {

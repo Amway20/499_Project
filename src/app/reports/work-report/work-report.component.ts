@@ -227,7 +227,7 @@ export class WorkReportComponent implements OnInit {
         pdf.save('work_survey_report.pdf');
       });
     });
-    window.location.reload();
+    // window.location.reload();
   }
 
   back() {
